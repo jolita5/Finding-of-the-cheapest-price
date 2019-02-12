@@ -44,23 +44,22 @@ namespace Finding_Price
 
         private async Task<List<NameAndPrice>> AllPrices(int pageNr)
         {
-            string url = "https://www.kainos.lt/mobilieji-telefonai/xiaomi-pocophone-f1-64gb-dual-black-juodas-v411339";
+            string url = "https://www.kainos.lt/mobilieji-telefonai";
 
 
             if (pageNr != 0)
             {
-                url = "https://www.kainos.lt/mobilieji-telefonai/xiaomi-pocophone-f1-64gb-dual-black-juodas-v411339" + pageNr.ToString();
+                url = "https://www.kainos.lt/mobilieji-telefonai?page=" + pageNr.ToString();
             }
 
 
 
 
             var doc = await Task.Factory.StartNew(() => web.Load(url));
-            var nameNodes = doc.DocumentNode.SelectNodes("//*[@id=\"item_prices\"]//table//tr//td//a");
-            var priceNodes = doc.DocumentNode.SelectNodes("//*[@id=\"item_prices\"]//table//tr//td//div//span");
+            var nameNodes = doc.DocumentNode.SelectNodes("//*[@id=\"results\"]//div//div//a//h3");
+            var priceNodes = doc.DocumentNode.SelectNodes("//*[@id=\"results\"]//div//div//a//div[2]");
 
 
-   
 
             if (nameNodes == null && priceNodes == null)
             {
@@ -82,7 +81,7 @@ namespace Finding_Price
 
             var raknings = await AllPrices(pageNum);
 
-
+    
 
             while (raknings.Count > 0)
             {
@@ -92,6 +91,7 @@ namespace Finding_Price
                     table.Rows.Add(rakning.Name, rakning.Price);
                     raknings = await AllPrices(++pageNum);
 
+                 
                 }
 
 
