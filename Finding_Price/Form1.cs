@@ -33,7 +33,7 @@ namespace Finding_Price
         private void InitTable()
         {
 
-            table = new DataTable("Chepeast Price");
+            table = new DataTable("All Prices");
             table.Columns.Add("Name", typeof(string));
             table.Columns.Add("Price", typeof(string));
 
@@ -68,9 +68,10 @@ namespace Finding_Price
 
             var names = nameNodes.Select(node => node.InnerText);
             var prices = priceNodes.Select(node => node.InnerText);
-            
+
 
             return names.Zip(prices, (name, price) => new NameAndPrice() { Name = name, Price = price }).ToList();
+
 
 
         }
@@ -81,7 +82,6 @@ namespace Finding_Price
 
             var raknings = await AllPrices(pageNum);
 
-    
 
             while (raknings.Count > 0)
             {
@@ -90,13 +90,9 @@ namespace Finding_Price
                 {
                     table.Rows.Add(rakning.Name, rakning.Price);
                     raknings = await AllPrices(++pageNum);
-
-                 
                 }
 
-
             }
-
 
         }
 
