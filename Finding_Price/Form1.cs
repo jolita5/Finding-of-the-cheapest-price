@@ -81,18 +81,20 @@ namespace Finding_Price
             int pageNum = 0;
 
             var raknings = await AllPrices(pageNum);
-
+            var sorting = raknings.OrderBy(b => b.Price);
 
             while (raknings.Count > 0)
             {
 
-                foreach (var rakning in raknings)
+                foreach (var rakning in sorting)
                 {
                     table.Rows.Add(rakning.Name, rakning.Price);
                     raknings = await AllPrices(++pageNum);
                 }
 
             }
+
+
 
         }
 
